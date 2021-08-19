@@ -8,7 +8,6 @@ import PrivateRoute from 'components/PrivateRoute';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUser } from './store/actions/auth.action'
-import Logout from 'components/Logout';
 
 function App() {
 
