@@ -1,9 +1,44 @@
 import PostList from "components/PostList";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const Home = () => {
   const user = useSelector((state) => state.auth) || {};
   const [text, setText] = useState('');
+  const [posts, setPosts] = useState([]);
+
+  const getPosts = async() => {
+    const config = {
+      method: 'GET',
+    }
+    const res = await fetch('http://localhost:1337/posts', config);
+    const data = await res.json();
+    setPosts(data);
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, [posts])
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const data = {
+      text,
+      user: user.user.id
+    }
+    const config = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    const res = await fetch('http://localhost:1337/posts', config);
+    const post = await res.json();
+    if (post.text){
+      setPosts([...posts] )
+    }
+  }
 
   return (
     <div className="home">
@@ -16,7 +51,7 @@ const Home = () => {
         to create a small social media website.
       </p>
       {user.isAuthenticated && (
-        <form className="new-post">
+        <form className="new-post" onSubmit={handleSubmit}>
           <textarea
             id="new-post-text"
             value={text}
@@ -26,7 +61,7 @@ const Home = () => {
           <input type="submit" value='Post' className='btn' />
         </form>
       )}
-      <PostList />
+      <PostList posts={posts} />
     </div>
   );
 };
