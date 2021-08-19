@@ -6,17 +6,19 @@ import Navbar from 'components/Navbar';
 import Profile from 'pages/Profile';
 import PrivateRoute from 'components/PrivateRoute';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './store/actions/auth.action'
 
 function App() {
 
   const dispatch = useDispatch();
 
+  const currentUser = useSelector(state => state.auth);
+
   useEffect(() => {
     const dis = async() => await dispatch(getUser());
     dis()
-  }, [dispatch])
+  }, [dispatch, getUser]);
 
 
   return (
