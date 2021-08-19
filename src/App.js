@@ -6,8 +6,9 @@ import Navbar from 'components/Navbar';
 import Profile from 'pages/Profile';
 import PrivateRoute from 'components/PrivateRoute';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from './store/actions/auth.action'
+import Logout from 'components/Logout';
 
 function App() {
 
@@ -18,10 +19,13 @@ function App() {
     dis()
   }, [dispatch])
 
+  const user = useSelector((state) => state.auth) || {};
+
   return (
     <div className="App">
       <Router>
         <Navbar />
+        {user.isAuthenticated ? <Logout/> : ''}
         <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/register' exact component={Register} />

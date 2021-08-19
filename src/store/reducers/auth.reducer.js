@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { AUTH_SUCCESS, AUTH_FAILURE, USER_FOUND } from "store/actions/auth.action";
+import { AUTH_SUCCESS, AUTH_FAILURE, USER_FOUND, LOGOUT } from "store/actions/auth.action";
 
 const initialState = {
   user: null,
@@ -23,6 +23,12 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         message: action.payload.message,
       };
+    case LOGOUT:
+      Cookies.remove("token")
+      Cookies.remove("id")
+      return {
+        initialState
+      }
     case USER_FOUND:
       return {
         ...state,

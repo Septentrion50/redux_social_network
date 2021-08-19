@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_FAILURE = "AUTH_FAILURE";
 export const USER_FOUND = "USER_FOUND";
+export const LOGOUT = "LOGOUT";
 
 export const login = (url, creds) => async (dispatch) => {
   const config = {
@@ -13,7 +14,6 @@ export const login = (url, creds) => async (dispatch) => {
   };
   const res = await fetch(`http://localhost:1337${url}`, config);
   const data = await res.json();
-  console.log(data);
   if (data.user) {
     dispatch({
       type: AUTH_SUCCESS,
@@ -27,6 +27,13 @@ export const login = (url, creds) => async (dispatch) => {
   }
 };
 
+export const logOut = (id) => async (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+    payload: id,
+  });
+}
+
 export const getUser = () => async (dispatch) => {
   const id = Cookies.get("id");
   const token = Cookies.get("token");
@@ -39,7 +46,6 @@ export const getUser = () => async (dispatch) => {
     };
     const res = await fetch(`http://localhost:1337/users/${id}`, config);
     const data = await res.json();
-    console.log(data);
     if (data.id) {
       dispatch({
         type: USER_FOUND,
