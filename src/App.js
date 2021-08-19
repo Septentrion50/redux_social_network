@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from 'pages/Home';
+import Register from 'pages/Register';
+import Login from 'pages/Login';
+import Navbar from 'components/Navbar';
+import Profile from 'pages/Profile';
+import PrivateRoute from 'components/PrivateRoute';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getUser } from './store/actions/auth.action'
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const dis = async() => await dispatch(getUser());
+    dis()
+  }, [getUser])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path='/' exact component={Home} />
+          <Route path='/register' exact component={Register} />
+          <Route path='/login' exact component={Login} />
+          <PrivateRoute path='/profile' exact component={Profile} />
+          
+        </Switch>
+      </Router>
     </div>
   );
 }
