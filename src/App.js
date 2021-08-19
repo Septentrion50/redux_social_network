@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const dis = async() => await dispatch(getUser());
     dis()
-  }, [dispatch, getUser])
+  }, [dispatch])
 
   return (
     <div className="App">

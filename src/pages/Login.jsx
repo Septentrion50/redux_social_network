@@ -2,7 +2,7 @@ import { useState } from "react";
 import { login } from "store/actions/auth.action";
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { Cookies } from 'js-cookie';
+import Cookies from 'js-cookie';
 
 const Login = () => {
 

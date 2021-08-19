@@ -11,7 +11,7 @@ export const authReducer = (state = initialState, action) => {
   switch(action.type) {
     case AUTH_SUCCESS:
       Cookies.set("token", action.payload.jwt);
-      Cookies.set('id', action.payload.user.id)
+      Cookies.set('id', action.payload.user.id);
       return {
         ...state,
         user: action.payload.user,
