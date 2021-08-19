@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { login } from "store/actions/auth.action";
 import { useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
+import { Cookies } from 'js-cookie';
 
 const Login = () => {
 
@@ -10,11 +12,15 @@ const Login = () => {
   })
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('handle submit')
     await dispatch(login('/auth/local', state));
+    if (Cookies.get('token')){
+      history.push('/')
+    }
   };
 
   return (
